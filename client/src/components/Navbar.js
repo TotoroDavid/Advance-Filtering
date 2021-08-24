@@ -4,7 +4,7 @@ const Navbar = () => {
     return (
         <AppBar>
             <Toolbar>
-                <Typography variant="h5">Bootcamps</Typography>
+                <Typography variant="h5" color="inherit">Bootcamps</Typography>
             </Toolbar>
         </AppBar>
     )
