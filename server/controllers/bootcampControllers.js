@@ -5,6 +5,7 @@
 /**schema mongoose model */
 const Bootcamp = require('../models/Bootcamp')
 const asyncHandler = require('../middleware/asyncHandler')
+const ErrorResponse = require('../utils/errorResponse')
 
 
 /** get all the bootcamps */
@@ -17,19 +18,49 @@ exports.getAllBootcamps = asyncHandler(async (req, res, next) => {
     })
 })
 
-/**create a new bootcamp route */
+/** create a new bootcamp route */
 exports.createNewBootcamp = asyncHandler(async (req, res, next) => {
-    res.send('create new bootcamps route')
+    const bootcamp = await Bootcamp.create(req.body)
+
+    res.status(201).json({
+        success: true,
+        data: bootcamp
+    })
 })
 
-//update a bootcamp by id 
+/** update a bootcamp by id */
 exports.updateBootcampById = asyncHandler(async (req, res, next) => {
-    res.send('update a  bootcamp by id')
+    let bootcamp = await Bootcamp.findById(req.params.id)
+
+    if (!bootcamp) {
+        return next(new ErrorResponse(`Bootcamp with id ${req.params.id} was not found`, 404))
+    }
+
+    bootcamp = await Bootcamp.findByIdAndUpdate(req.params.id, req.body, {
+        new: true, runValidators: true
+    })
+
+    res.status(201).json({
+        success: true,
+        data: bootcamp
+    })
 })
 
-//delete a bootcamp by id route
+/** delete a bootcamp by id route */
 exports.deleteBootcampById = asyncHandler(async (req, res, next) => {
-    res.send('delete a bootcamp by id route')
+    let bootcamp = await Bootcamp.findById(req.params.id)
+
+    if (!bootcamp) {
+        return next(
+            new ErrorResponse(`Bootcamp with id ${req.params.id} was not found`, 404))
+    }
+
+    await bootcamp.remove()
+
+    res.status(200).json({
+        success: true,
+        data: {}
+    })
 })
 
 
