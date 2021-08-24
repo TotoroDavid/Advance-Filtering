@@ -27,3 +27,9 @@ const bootcampSchema = new mongoose.Schema({
 const Bootcamp = mongoose.model('Bootcamp', bootcampSchema)
 
 module.exports = Bootcamp
+
+/**
+ *  In mongoose, a schema represents the structure of a particular document, either completely or just a portion of the
+ * document. It's a way to express expected properties and values as well as constraints and indexes. A model defines a
+ * programming interface for interacting with the database (read, insert, update, etc)
+ */
