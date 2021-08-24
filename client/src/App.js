@@ -1,10 +1,19 @@
-import React from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+//pages
+import BootcampsPage from './pages/BootcampsPage'
+//component
+import Navbar from './components/Navbar'
 
 const App = () => {
   return (
-    <div>
-      <div>hello world</div>
-    </div>
+    <>
+      <Navbar />
+      <Router>
+        <Switch>
+          <Route exact path="/" component={BootcampsPage} />
+        </Switch>
+      </Router>
+    </>
   )
 }
 

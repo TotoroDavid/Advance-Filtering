@@ -10,7 +10,30 @@ const ErrorResponse = require('../utils/errorResponse')
 
 /** get all the bootcamps */
 exports.getAllBootcamps = asyncHandler(async (req, res, next) => {
-    const bootcamps = await Bootcamp.find()
+
+    let query
+    const reqQuery = { ...req.query }
+    const removeFields = ['sort']
+
+    removeFields.forEach((val) => delete reqQuery[val])
+    /** handling filtering on backend */
+    let queryStr = JSON.stringify(reqQuery)
+    queryStr = queryStr
+        .replace(/\b(gt|gte|lt|lte|in)\b/g, (match) =>
+            `$${match}`
+        )
+
+    query = Bootcamp.find(JSON.parse(queryStr))
+    /** handling sorting on backend */
+    if (req.query.sort) {
+        const sortByArr = req.query.sort.split(',')
+        const sortByStr = sortByArr.join(' ')
+        query = query.sort(sortByStr)
+    } else {
+        query = query.sort('-price')
+    }
+
+    const bootcamps = await query
 
     res.status(200).json({
         success: true,
