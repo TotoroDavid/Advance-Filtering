@@ -12,10 +12,18 @@ const ErrorResponse = require('../utils/errorResponse')
 exports.getAllBootcamps = asyncHandler(async (req, res, next) => {
 
     let query
+    let uiValues = {
+        filtering: {},
+        sorting: {}
+    }
     const reqQuery = { ...req.query }
     const removeFields = ['sort']
 
     removeFields.forEach((val) => delete reqQuery[val])
+
+    const filterKeys = Object.keys(reqQuery)
+    const filterValues = Object.values(reqQuery)
+
     /** handling filtering on backend */
     let queryStr = JSON.stringify(reqQuery)
     queryStr = queryStr
