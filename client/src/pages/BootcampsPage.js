@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+/** @useHistory @useLocation */
 import { useHistory, useLocation } from 'react-router-dom'
 import {
     CircularProgress,
@@ -76,6 +77,7 @@ const BootcampsPage = () => {
                     query = filter
                 }
 
+                /** connection to the backend */
                 const { data } = await axios({
                     method: "GET",
                     url: `http://localhost:3001/ap1/v1/bootcamps${query}`,
@@ -170,6 +172,7 @@ const BootcampsPage = () => {
                         <CircularProgress size='3rem' thickness={5} />
                     </div>
                 ) : (
+                    /** bootcamps  have all the bootcamps information */
                     bootcamps.map(bootcamp => (
                         <Grid item key={bootcamp._id} xs={12} sm={6} md={4} lg={3}>
                             <BootcampCard bootcamp={bootcamp} />
@@ -182,3 +185,10 @@ const BootcampsPage = () => {
 }
 
 export default BootcampsPage
+
+/**
+ * @useHistory The useHistory hook helps us to access the history object, which is used to navigate programmatically
+ * to other routes using push and replace methods.
+ *
+ * @useLocation hook helps us to access the location object, which contains the current URL location, search property.
+ */
