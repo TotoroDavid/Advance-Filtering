@@ -10,7 +10,13 @@ connectDB()
 const app = express()
 
 /** middleware */
+
+
 app.use(express.json())
+
+app.get('/', (req, res) => {
+    res.send('hello to filtering-mern')
+})
 
 /** Routes middleware */
 app.use('/ap1/v1/bootcamps', require('./routes/bootcampRoutes'))
@@ -18,5 +24,7 @@ app.use('/ap1/v1/bootcamps', require('./routes/bootcampRoutes'))
 /** error handler */
 app.use(errorHandler)
 
-const PORT = process.env.PORT
+
+
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => console.log(`server running on port ${PORT}`))

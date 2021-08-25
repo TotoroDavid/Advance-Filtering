@@ -24,6 +24,10 @@ exports.getAllBootcamps = asyncHandler(async (req, res, next) => {
     const filterKeys = Object.keys(reqQuery)
     const filterValues = Object.values(reqQuery)
 
+    filterKeys.forEach(
+        (val, idx) => uiValues.filtering[val] = filterValues[idx]
+    )
+
     /** handling filtering on backend */
     let queryStr = JSON.stringify(reqQuery)
     queryStr = queryStr
@@ -35,17 +39,48 @@ exports.getAllBootcamps = asyncHandler(async (req, res, next) => {
     /** handling sorting on backend */
     if (req.query.sort) {
         const sortByArr = req.query.sort.split(',')
+
+        /** return ui values from api */
+        sortByArr.forEach((val) => {
+            let order
+
+            if (val[0] === '-') {
+                order = 'descending'
+            } else {
+                order = 'ascending'
+            }
+
+            uiValues.sorting[val.replace('-', '')] = order
+        })
+
         const sortByStr = sortByArr.join(' ')
         query = query.sort(sortByStr)
+
     } else {
         query = query.sort('-price')
     }
 
     const bootcamps = await query
 
+    const maxPrice = await Bootcamp
+        .find()
+        .sort({ price: -1 })
+        .limit(1)
+        .select('-_id price')
+
+    const minPrice = await Bootcamp
+        .find()
+        .sort({ price: 1 })
+        .limit(1)
+        .select('-_id price')
+
+    uiValues.maxPrice = maxPrice[0].price
+    uiValues.minPrice = minPrice[0].price
+
     res.status(200).json({
         success: true,
         data: bootcamps,
+        uiValues,
     })
 })
 
