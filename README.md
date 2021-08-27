@@ -17,6 +17,12 @@ Open http://localhost:3001 to view it in the browser.  </br>
 this is a nice-looking application that is able to load data from our own backend coded in Node, Express, and MongoDB and into our frontend using React to
 display, filter, and sort data in a nice-looking UI using Material UI. With this project, I will also show you how to properly handle errors in your express API and how to do some advanced API querying features with express and mongoose.  </br>
 
+if you want to use the project and add more items 
+to show more boot camps or whatever you want,
+use postman </br>
+in the next link below </br> 
+https://www.postman.com/collections/58dbc29d3d6dcf524a7a </br>
+
 # LINKS
 
 MongoDB Atlas:  </br>
